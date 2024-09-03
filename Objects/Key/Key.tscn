@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://be8ioaje8v6pj"]
+
+[ext_resource type="Script" path="res://Data/Pushable.gd" id="1_xd6m6"]
+[ext_resource type="Texture2D" uid="uid://cjjv6whi2a5v2" path="res://tileest.png" id="2_drm23"]
+[ext_resource type="PackedScene" uid="uid://bc4sw6b48t2ab" path="res://Components/Movement Component/Movement Component.tscn" id="3_uy5mp"]
+[ext_resource type="Script" path="res://Objects/Key/Key Component.gd" id="4_n5awv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t61lk"]
+atlas = ExtResource("2_drm23")
+region = Rect2(80, 48, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_re738"]
+size = Vector2(16, 16)
+
+[node name="Key" type="Area2D" node_paths=PackedStringArray("movement_component")]
+script = ExtResource("1_xd6m6")
+movement_component = NodePath("MovementComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_t61lk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_re738")
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("anchor") instance=ExtResource("3_uy5mp")]
+anchor = NodePath("..")
+
+[node name="Key Component" type="Node" parent="."]
+script = ExtResource("4_n5awv")
+
+[connection signal="collided_with" from="MovementComponent" to="Key Component" method="manage_collisions"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://cg4o1yiskvf3y"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_2vgpx"]
+[ext_resource type="Texture2D" uid="uid://cjjv6whi2a5v2" path="res://tileest.png" id="2_ndrv3"]
+[ext_resource type="PackedScene" uid="uid://bc4sw6b48t2ab" path="res://Components/Movement Component/Movement Component.tscn" id="3_0gqc1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6prq6"]
+atlas = ExtResource("2_ndrv3")
+region = Rect2(48, 64, 16, 16)
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("movement_component")]
+script = ExtResource("1_2vgpx")
+movement_component = NodePath("MovementComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_6prq6")
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("anchor") instance=ExtResource("3_0gqc1")]
+anchor = NodePath("..")
+
+[connection signal="collided_with" from="MovementComponent" to="." method="manageCollisions"]
